@@ -1,0 +1,7 @@
+CREATE TABLE books (
+  id          SERIAL PRIMARY KEY,
+  title       VARCHAR(140) NOT NULL,
+  isbn        VARCHAR(13) NOT NULL,
+  is_deleted  BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at  TIMESTAMP NOT NULL DEFAULT NOW() 
+)

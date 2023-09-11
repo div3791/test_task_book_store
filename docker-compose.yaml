@@ -1,0 +1,35 @@
+version: "3"
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: book_store
+    ports:
+      - 5432:5432
+    volumes:
+      - ./books-schema.sql:/docker-entrypoint-initdb.d/books-schema.sql
+    networks:
+      - 'dock-db-test'
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: book_store-image
+    restart: on-failure
+    ports:
+      - 3791:3791
+    depends_on:
+      - postgres
+    networks:
+      - 'dock-db-test'
+    volumes:
+      - ./src:/usr/src/app/src
+
+networks:
+  dock-db-test:
+    name: dock-db-test
